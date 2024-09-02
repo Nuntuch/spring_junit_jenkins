@@ -1,9 +1,8 @@
 pipeline {
-    // agent any
-    agent {
-    docker { image 'maven:3.8.1-adoptopenjdk-17' }
-    
-    }
+    agent any
+    // agent {
+    // docker { image 'maven:3.8.1-adoptopenjdk-17' }
+    // }
     
     tools {
         // Install the Maven version configured as "M3" and add it to the path.
@@ -35,34 +34,32 @@ pipeline {
         // ) 
         // {
           // Run the maven build
-          sh "mvn clean verify"
+
+
+          sh 'mvn -B -DskipTests clean package'
+          sh "mvn clean install"
+          sh "mvn verify"
         // } // withMaven will discover the generated Maven artifacts, JUnit Surefire & FailSafe & FindBugs & SpotBugs reports...
       }
+    
     
 
     
     }
 
     
-        stage('Test') {
+        stage('Test') { 
             steps {
-                
-                // Run Maven on a Unix agent.
-                sh "mvn -Dmaven.test.failure.ignore=true clean package"
-
-                // To run Maven on a Windows agent, use
-                // bat "mvn -Dmaven.test.failure.ignore=true clean package"
-            
+                sh 'mvn test' 
             }
-                post {
-                // If Maven was able to run the tests, even if some of the test
-                // failed, record the test results and archive the jar file.
-                success {
-                    junit '**/target/surefire-reports/TEST-*.xml'
-                    archiveArtifacts 'target/*.jar'
+            post {
+                always {
+                    junit 'target/surefire-reports/*.xml' 
                 }
             }
-        }
+          }
+
+
 
 
   }
