@@ -7,12 +7,16 @@ pipeline {
     }
 
     stages {
-        stage('Build') {
+        stage('Check Out Code') {
             steps {
                 git branch: 'master',
                 credentialsId: '6fe3e5c5-52da-46be-b826-133979b64daa',
                 url: 'https://github.com/Nuntuch/spring_junit_jenkins.git'
+            }
+        }
 
+        stage('Build') {
+            steps {
                 sh 'mvn -B -DskipTests clean package'
             }
         }
@@ -24,6 +28,7 @@ pipeline {
             post {
                 always {
                     junit 'target/surefire-reports/*.xml'
+                    recordCoverage(tools: [[parser: 'JUNIT']])
                 }
             }
         }
