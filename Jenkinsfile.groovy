@@ -19,7 +19,7 @@ pipeline {
             steps {
                 sh 'mvn clean'
             }
-            }
+        }
 
         // stage('SonarQube analysis') {
         //     steps {
@@ -47,7 +47,15 @@ pipeline {
             post {
                 always {
                     junit 'target/surefire-reports/*.xml'
-                    recordCoverage(tools: [[parser: 'JUNIT']])
+                    recordCoverage(
+                        tools: [[parser: 'JUNIT']],
+                        sourceCodeRetention: 'EVERY_BUILD'
+                    )
+
+                    // Assuming JaCoCo report is generated at target/site/jacoco
+                    // archiveArtifacts artifacts: 'target/site/jacoco/*.xml', allowEmptyArchive: true
+                    archiveArtifacts artifacts: 'target/surefire-reports/*.xml', allowEmptyArchive: true
+
                 }
             }
         }
