@@ -88,10 +88,10 @@ pipeline {
         }
     }
 
-    post {
-        always {
-            archiveArtifacts artifacts: '**/target/*.jar', allowEmptyArchive: true
-            junit '**/target/surefire-reports/*.xml'
-        }
-    }
+    // post {
+    //     always {
+    //         archiveArtifacts artifacts: '**/target/*.jar', allowEmptyArchive: true
+    //         junit '**/target/surefire-reports/*.xml'
+    //     }
+    // }
 }
