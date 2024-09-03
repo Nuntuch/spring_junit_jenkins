@@ -52,12 +52,46 @@ pipeline {
                         sourceCodeRetention: 'EVERY_BUILD'
                     )
 
-                    // Assuming JaCoCo report is generated at target/site/jacoco
-                    // archiveArtifacts artifacts: 'target/site/jacoco/*.xml', allowEmptyArchive: true
-                    archiveArtifacts artifacts: 'target/surefire-reports/*.xml', allowEmptyArchive: true
-
+                // Assuming JaCoCo report is generated at target/site/jacoco
+                // archiveArtifacts artifacts: 'target/site/jacoco/*.xml', allowEmptyArchive: true
+                // archiveArtifacts artifacts: 'target/surefire-reports/*.xml', allowEmptyArchive: true
                 }
             }
+        }
+        stage('Code Coverage') {
+            steps {
+                // sh 'mvn test'
+                sh 'mvn jacoco:report'
+                // sh '**/target/site/jacoco/jacoco.xml'
+                sh 'ls -al ./target/site/jacoco/'
+            }
+        }
+
+        stage('Publish Coverage Report') {
+            steps {
+                sh 'ls -al ./target/site/jacoco/'
+
+                // Assuming JaCoCo report is generated at target/site/jacoco
+                // archiveArtifacts artifacts: 'target/site/jacoco/*.xml', allowEmptyArchive: true
+                // archiveArtifacts artifacts: 'target/surefire-reports/*.xml', allowEmptyArchive: true
+
+                // publishCoverage adapters: [
+    // jacocoAdapter('build/reports/jacoco/test/jacocoTestReport.xml')
+// ], sourceFileResolver: sourceFiles('STORE_ALL_BUILD') adapters: [jacocoAdapter('**/target/site/jacoco/jacoco.xml')]
+                // publishCoverage adapters: [jacocoAdapter('./target/site/jacoco/jacoco.xml')]
+
+            //     publishCoverage adapters: [
+            //     jacocoAdapter('build/reports/jacoco/test/jacocoTestReport.xml')]
+            //     , sourceFileResolver: sourceFiles('STORE_ALL_BUILD')
+
+            }
+        }
+    }
+
+    post {
+        always {
+            archiveArtifacts artifacts: '**/target/*.jar', allowEmptyArchive: true
+            junit '**/target/surefire-reports/*.xml'
         }
     }
 }
