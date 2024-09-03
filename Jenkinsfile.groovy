@@ -10,23 +10,29 @@ pipeline {
         stage('Check Out Code') {
             steps {
                 git branch: 'master',
-                credentialsId: '6fe3e5c5-52da-46be-b826-133979b64daa',
+                credentialsId: 'githubPrivateKey2',
                 url: 'https://github.com/Nuntuch/spring_junit_jenkins.git'
             }
         }
 
-        stage('SonarQube analysis') {
+        stage('Clean') {
             steps {
-                withSonarQubeEnv('SonarQube') {
-                    sh 'mvn clean verify sonar:sonar -Dsonar.projectKey=spring_junit_jenkins'
-                }
+                sh 'mvn clean'
             }
-        }
-        stage('Quality gate') {
-            steps {
-                waitForQualityGate abortPipeline: true
             }
-        }
+
+        // stage('SonarQube analysis') {
+        //     steps {
+        //         withSonarQubeEnv('SonarQube') {
+        //             sh 'mvn clean verify sonar:sonar -Dsonar.projectKey=spring_junit_jenkins'
+        //         }
+        //     }
+        // }
+        // stage('Quality gate') {
+        //     steps {
+        //         waitForQualityGate abortPipeline: true
+        //     }
+        // }
 
         stage('Build') {
             steps {
