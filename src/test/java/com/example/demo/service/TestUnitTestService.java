@@ -9,7 +9,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 
 @ExtendWith(MockitoExtension.class)
-public class UnitTestTestService {
+public class TestUnitTestService {
 
 	@InjectMocks
 	private TestService testService;
