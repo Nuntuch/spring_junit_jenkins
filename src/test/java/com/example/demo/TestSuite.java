@@ -6,7 +6,8 @@ import org.junit.platform.suite.api.SelectClasses;
 //import org.junit.platform.suite.api.SelectPackages;
 import org.junit.platform.suite.api.Suite;
 
-import com.example.demo.service.TestUnitTestService;
+import com.example.demo.service.NumServiceTest;
+
 
 
 //@SelectPackages({"com.howtodoinjava.junit5.examples.packageA"
@@ -15,7 +16,7 @@ import com.example.demo.service.TestUnitTestService;
 //@IncludeTags("production")
 //@SelectPackages("com.example.demo.service")
 //@IncludePackages("com.example.demo.service")
-@SelectClasses( TestUnitTestService.class )
+@SelectClasses( NumServiceTest.class )
 @Suite
 public class TestSuite {
 

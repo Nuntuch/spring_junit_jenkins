@@ -9,16 +9,15 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 
 @ExtendWith(MockitoExtension.class)
-public class TestUnitTestService {
+public class NumServiceTest {
 
 	@InjectMocks
-	private TestService testService;
+	private NumService numService;
 	
 	@Test
-	public void test() {
-//		fail("Not yet implemented");
-		
-		assertEquals(testService.addNum(1,1), 2);
+	public void addNum() {
+
+		assertEquals(numService.addNum(1,1), 2);
 	}
 
 }
